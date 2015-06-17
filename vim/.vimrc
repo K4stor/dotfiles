@@ -9,6 +9,10 @@ call vundle#begin()
 
 " -----------------------------------------------------> [plugins]
 Plugin 'gmarik/Vundle.vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'tpope/vim-endwise'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/unite.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -21,7 +25,20 @@ hi CursorLine ctermbg=8 ctermfg=15 cterm=NONE "8 = dark gray, 15 = white
 hi CursorColumn ctermbg=8 ctermfg=15 "8 = dark gray, 15 = white
 hi Cursor ctermbg=15 ctermfg=8
 
+" -----------------------------------------------------> [Unite.vim]
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+call unite#custom#profile('files', 'context.ignorecase', 1)
+call unite#custom#profile('files', 'context.smartcase', 0)
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+" Using ag as recursive command.
+let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
+
 " -----------------------------------------------------> [(re)mappings]
+" Make unite a fuzzy CTRL-p alternative
+nnoremap <C-p> :Unite buffer file_rec/async:! -start-insert<CR>
+
 " --Leader needs space
 let mapleader = "\<Space>"
 
@@ -95,3 +112,4 @@ set showbreak=↪
 
 " -- General indentation settings
 set ts=2 sts=2 sw=2 expandtab
+
